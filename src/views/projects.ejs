@@ -7,12 +7,12 @@
 
         <ul>
             <% projects.forEach(project=> { %>
-                <p>
+                <li>
                     <%= new Date(project.project_date).toLocaleDateString('en-CA', { year: 'numeric' , month: 'short' ,
                         day: 'numeric' }) %>: <strong>
                             <%= project.title %>
                         </strong> (<%= project.name %>)
-                </p>
+                </li>
                 <%})%>
 
         </ul>
