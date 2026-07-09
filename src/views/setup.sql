@@ -45,3 +45,43 @@ INSERT INTO services(project_id, organization_id, title, description, project_lo
 (13, 3, 'Food Distribution Event', 'Helps distribute food supplies to families in need through local partnerships.', 'Moisson Beauce Food Bank, Quebec', '2026-08-14'),
 (14, 3, 'Clothing Donation Drive', 'Collects and distributes clothing to individuals and families in need.', 'Saint-Georges Community Hall, Quebec', '2026-11-20'), 
 (15, 3, 'Community Cultural Festival', 'Celebrates diversity through food, music, and cultural activities.', 'Parc des Îles, Beauce, Quebec', '2026-07-30')
+
+
+-- ADDING CATEGORIES TO THE DATABASE
+CREATE TABLE categories(
+	category_id SERIAL PRIMARY KEY,
+	category_name VARCHAR(100) NOT NULL
+)
+
+CREATE TABLE service_categories (
+    service_id INT,
+    category_id INT,
+    PRIMARY KEY (service_id, category_id),
+
+    FOREIGN KEY (service_id) REFERENCES services(project_id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE
+);
+
+INSERT INTO categories(category_id, category_name) VALUES 
+(1, 'Environmental'),
+(2, 'Educational'),
+(3, 'Community Service'),
+(4, 'Health and Well-Being');
+
+INSERT INTO service_categories (service_id, category_id) VALUES
+(1, 2),
+(2, 2),
+(3, 2),
+(4, 2),
+(5, 2),
+(6, 1),
+(6, 3),
+(7, 1),
+(8, 1),
+(9, 1),
+(10, 1),
+(11, 3),
+(12, 3),
+(13, 4),
+(14, 4),
+(15, 3)
