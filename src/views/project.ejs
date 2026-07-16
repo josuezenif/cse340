@@ -14,8 +14,9 @@
         </p>
 
         <p>
-            <strong>Date of Project: </strong>
-            <%= project_details.project_date %>
+            <strong>Project Date: </strong>
+            <%- new Date(project_details.project_date).toLocaleDateString('en-CA', { year: 'numeric' , month: 'short' ,
+                day: 'numeric' });%>
         </p>
 
         <p>

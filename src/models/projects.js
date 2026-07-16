@@ -70,7 +70,7 @@ async function getProjectDetails(id) {
 
         JOIN organization
         ON services.organization_id = organization.organization_id
-        WHERE services.organization_id = $1;
+        WHERE project_id = $1;
     `;
 
     const queryParams = [id];
