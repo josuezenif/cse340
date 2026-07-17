@@ -25,8 +25,16 @@
         </p>
 
         <p>
+            <strong>Organization: </strong>
             <a href="/organization/<%=project_details.organization_id%>">
                 <%= project_details.name %>
+            </a>
+        </p>
+
+        <p>
+            <strong>Categories: </strong>
+            <a href="/category/<%= categories.category_id %>">
+                <%= categories.category_name %>
             </a>
         </p>
 

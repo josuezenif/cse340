@@ -1,5 +1,6 @@
 //IMPORT MODELS NEEDED
 import { getAllProjects, getUpcomingProjects, getProjectDetails, getProjectsByOrganizationId } from "../models/projects.js";
+import { retrieveCategoriesByProjectId } from "../models/categories.js";
 
 const NUMBER_OF_UPCOMING_PROJECTS = 5;
 
@@ -14,9 +15,10 @@ const showProjectsPage = async (req, res) => {
 const showProjectDetailsPage = async (req, res) => {
     const projectId = req.params.id
     const project_details = await getProjectDetails(projectId);
+    const categories = await retrieveCategoriesByProjectId(projectId);
 
     const title = 'Service Project Details';
-    res.render('project', { title, project_details });
+    res.render('project', { title, project_details, categories });
 }
 
 //EXPORT CONTROLLER FUNCTIONS
