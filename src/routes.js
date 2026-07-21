@@ -7,8 +7,11 @@ import {
     showOrganizationDetailsPage,
     showNewOrganizationForm,
     processNewOrganizationForm,
-    organizationValidation
+    organizationValidation,
+    showEditOrganizationForm,
+    processEditOrganizationForm
 } from "./controllers/organizations.js";
+
 import { showProjectsPage, showProjectDetailsPage } from "./controllers/projects.js";
 import { showCategoriesPage, showCategoryDetails } from "./controllers/categories.js";
 import { testErrorPage } from "./controllers/errors.js";
@@ -29,6 +32,12 @@ router.get('/new-organization', showNewOrganizationForm);
 
 // Route to handle new organization form submission
 router.post('/new-organization', organizationValidation, processNewOrganizationForm);
+
+// ROUTE FOR EDIT ORGANIZATION PAGE
+router.get('/edit-organization/:id', showEditOrganizationForm);
+
+// ROUTE FOR UPTDATING ORGANIZATON DATA
+router.post('/edit-organization/:id', organizationValidation, processEditOrganizationForm);
 
 // error-handling routes
 router.get('/test-error', testErrorPage);
