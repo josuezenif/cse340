@@ -71,12 +71,59 @@ const updateCategoryAssignments = async (project_id, categoryIds) => {
     }
 }
 
+const createNewCategory = async (category_name) => {
+    const query = `
+        INSERT INTO categories (category_name)
+        VALUES ($1)
+        RETURNING category_id;
+    `;
+
+    const queryParams = [category_name];
+    const result = await db.query(query, queryParams);
+
+    if (result.rows.length === 0) {
+        throw new Error('Failed to create category');
+    }
+
+    if (process.env.ENABLE_SQL_LOGGING === 'true') {
+        console.log('Created new category with ID:', result.rows[0].category_id);
+    }
+
+    console.log(result.rows[0].category_id);
+
+    return result.rows[0].category_id;
+}
+
+async function updateCategory(category_name, category_id) {
+    const query = `
+        UPDATE categories
+        SET category_name = $1
+        WHERE category_id = $2
+        RETURNING category_id;
+    `;
+
+    const queryParams = [category_name, category_id];
+    const result = await db.query(query, queryParams);
+
+    if (result.rows.length === 0) {
+        throw new Error('Category not found');
+    }
+
+    if (process.env.ENABLE_SQL_LOGGING === 'true') {
+        console.log('Updated category with ID:', category_id);
+    }
+    return result.rows[0].category_id;
+}
+
+
 export {
     getAllCategories,
     retrieveSingleCategoryById,
     retrieveCategoriesByProjectId,
     retrieveAllProjectsByCategoryId,
-    updateCategoryAssignments
+    updateCategoryAssignments,
+    createNewCategory,
+    updateCategory
 }
 
 //     return result.rows.length > 0 ? result.rows[0] : null;

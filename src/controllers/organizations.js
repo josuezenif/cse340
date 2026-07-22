@@ -59,7 +59,7 @@ const showNewOrganizationForm = async (req, res) => {
 const processNewOrganizationForm = async (req, res) => {
     // Check for validation errors
     const results = validationResult(req);
-    console.log(results);
+
     if (!results.isEmpty()) {
         // Validation failed - loop through errors
         results.array().forEach((error) => {
@@ -94,7 +94,7 @@ const processEditOrganizationForm = async (req, res) => {
     const { name, description, email, logo_file } = req.body;
 
     // Check for validation errors
-    const results = validationResult(req.body);
+    const results = validationResult(req);
     if (!results.isEmpty()) {
 
         // Validation failed - loop through errors
