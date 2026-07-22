@@ -1,0 +1,51 @@
+<%- include('partials/header') %>
+    <main>
+        <h1>
+            <%= title %>
+        </h1>
+
+        <form action="/edit-project/<%= project_id %>" method="POST">
+
+            <div class="form-group">
+                <label for="organization_id">Related Organization</label>
+                <select name="organization_id" id="organization_id">
+                    <option value="<%= project_details.organization_id %>">
+                        <%= project_details.name %>
+                    </option>
+
+                    <% organizations.forEach(org=> { %>
+                        <option value="<%= org.organization_id %>">
+                            <%= org.name %>
+                        </option>
+                        <% }) %>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" maxlength="100" required
+                    value="<%= project_details.title %>">
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea name="description" id="description" maxlength="500"
+                    required><%= project_details.description %></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" value="<%= project_details.project_location %>">
+            </div>
+
+            <div>
+                <label for="date">Date</label>
+                <input type="date" name="date" id="date" value="<%= new Date(project_details.project_date).toLocaleDateString('en-CA', { year: 'numeric' , month: 'numeric' ,
+                day: 'numeric' }) %>">
+            </div>
+
+            <button type="submit">Update Project! 😁</button>
+        </form>
+
+    </main>
+    <%- include('partials/footer') %>

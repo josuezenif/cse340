@@ -4,7 +4,8 @@ import {
     getUpcomingProjects,
     getProjectDetails,
     getProjectsByOrganizationId,
-    createProject
+    createProject,
+    updateProject
 } from "../models/projects.js";
 
 import { retrieveCategoriesByProjectId } from "../models/categories.js";
@@ -91,5 +92,40 @@ const processNewProjectForm = async (req, res) => {
     }
 }
 
+const showEditProjectForm = async (req, res) => {
+    const project_id = req.params.id;
+    const title = "Update Project Details";
+
+    const project_details = await getProjectDetails(project_id);
+    const organizations = await getAllOrganizations();
+
+    res.render('edit-project', { project_id, title, project_details, organizations });
+}
+
+const processEditProjectForm = async (req, res) => {
+    const project_id = req.params.id;
+
+    try {
+        const { organization_id, title, description, location, date } = req.body;
+
+        await updateProject(organization_id, title, description, location, date, project_id);
+        res.redirect(`/project/${project_id}`);
+    }
+
+    catch (error) {
+        console.error('Error creating new project:', error);
+        req.flash('error', 'There was an error updating the service project 😢');
+        res.redirect('/edit-project');
+    }
+}
+
 //EXPORT CONTROLLER FUNCTIONS
-export { showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, projectValidation };
+export {
+    showProjectsPage,
+    showProjectDetailsPage,
+    showNewProjectForm,
+    processNewProjectForm,
+    projectValidation,
+    showEditProjectForm,
+    processEditProjectForm
+};
