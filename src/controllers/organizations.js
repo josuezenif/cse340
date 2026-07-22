@@ -70,7 +70,7 @@ const processNewOrganizationForm = async (req, res) => {
         return res.redirect('/new-organization');
     }
 
-    const { name, description, contactEmail } = req.body;
+    const { name, description, contactEmail } = req.body; // USED TO PULL NAME PROPERTIES OUT OF OBJECT INTO VARIABLES
     const logoFilename = 'placeholder-logo.png'; // Use the placeholder logo for all new organizations
 
     const organizationId = await createOrganization(name, description, contactEmail, logoFilename);

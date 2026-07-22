@@ -110,7 +110,7 @@ async function showUpdateCategoryForm(req, res) {
 
 async function processUpdateCategoryForm(req, res) {
     const categoryId = req.params.id;
-    const { category_name } = req.body;
+    const { category_name } = req.body; // USED TO PULL NAME PROPERTIES OUT OF OBJECT INTO VARIABLES
 
     // Check for validation errors
     const errors = validationResult(req);

@@ -119,7 +119,7 @@ const processEditProjectForm = async (req, res) => {
     }
 
     try {
-        const { organization_id, title, description, location, date } = req.body;
+        const { organization_id, title, description, location, date } = req.body; // USED TO PULL NAME PROPERTIES OUT OF OBJECT INTO VARIABLES
 
         await updateProject(organization_id, title, description, location, date, project_id);
         res.redirect(`/project/${project_id}`);
