@@ -1,5 +1,13 @@
 // IMPORT MODELS NEEDED 
-import { getAllCategories, retrieveSingleCategoryById, retrieveAllProjectsByCategoryId } from "../models/categories.js";
+import {
+    getAllCategories,
+    retrieveSingleCategoryById,
+    retrieveAllProjectsByCategoryId,
+    retrieveCategoriesByProjectId,
+    updateCategoryAssignments
+} from "../models/categories.js";
+
+import { getProjectDetails } from "../models/projects.js";
 
 // DEFINE CONTROLLER FUNCTIONS
 const showCategoriesPage = async (req, res) => {
@@ -18,5 +26,29 @@ async function showCategoryDetails(req, res) {
     res.render('category', { title, categoryDetails, projectsList });
 }
 
+const showAssignCategoriesForm = async (req, res) => {
+    const projectId = req.params.project_id;
+
+    const projectDetails = await getProjectDetails(projectId);
+    const categories = await getAllCategories();
+    const assignedCategories = await retrieveCategoriesByProjectId(projectId);
+
+    const title = 'Assign Categories to Project';
+
+    res.render('assign-categories', { title, projectId, projectDetails, categories, assignedCategories });
+};
+
+const processAssignCategoriesForm = async (req, res) => {
+    const projectId = req.params.project_id;
+    const selectedCategoryIds = req.body.categoryIds || [];
+
+    // Ensure selectedCategoryIds is an array
+    const categoryIdsArray = Array.isArray(selectedCategoryIds) ? selectedCategoryIds : [selectedCategoryIds];
+    await updateCategoryAssignments(projectId, categoryIdsArray);
+
+    req.flash('success', 'Categories updated successfully.');
+    res.redirect(`/project/${projectId}`);
+};
+
 // EXPORT CONTROLLER FUNCTIONS
-export { showCategoriesPage, showCategoryDetails };
+export { showCategoriesPage, showCategoryDetails, showAssignCategoriesForm, processAssignCategoriesForm };

@@ -31,7 +31,7 @@ async function retrieveCategoriesByProjectId(project_id) {
 
     const queryParams = [project_id];
     const result = await db.query(query, queryParams);
-    return result.rows.length > 0 ? result.rows[0] : null;
+    return result.rows;
 }
 
 async function retrieveAllProjectsByCategoryId(category_id) {
@@ -48,6 +48,35 @@ async function retrieveAllProjectsByCategoryId(category_id) {
     return result.rows;
 }
 
-export { getAllCategories, retrieveSingleCategoryById, retrieveCategoriesByProjectId, retrieveAllProjectsByCategoryId }
+async function assignCategoryToProject(project_id, category_id) {
+    const query = `
+        INSERT INTO service_categories (service_id, category_id)
+        VALUES ($1, $2);
+    `;
+
+    await db.query(query, [project_id, category_id]);
+}
+
+const updateCategoryAssignments = async (project_id, categoryIds) => {
+    // First, remove existing category assignments for the project
+    const deleteQuery = `
+        DELETE FROM service_categories
+        WHERE service_id = $1;
+    `;
+    await db.query(deleteQuery, [project_id]);
+
+    // Next, add the new category assignments
+    for (const categoryId of categoryIds) {
+        await assignCategoryToProject(project_id, categoryId);
+    }
+}
+
+export {
+    getAllCategories,
+    retrieveSingleCategoryById,
+    retrieveCategoriesByProjectId,
+    retrieveAllProjectsByCategoryId,
+    updateCategoryAssignments
+}
 
 //     return result.rows.length > 0 ? result.rows[0] : null;

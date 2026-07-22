@@ -20,7 +20,13 @@ import {
     projectValidation
 } from "./controllers/projects.js";
 
-import { showCategoriesPage, showCategoryDetails } from "./controllers/categories.js";
+import {
+    showCategoriesPage,
+    showCategoryDetails,
+    showAssignCategoriesForm,
+    processAssignCategoriesForm
+} from "./controllers/categories.js";
+
 import { testErrorPage } from "./controllers/errors.js";
 
 // DEFINING ROUTES AND GETTING PAGES
@@ -50,6 +56,9 @@ router.post('/edit-organization/:id', organizationValidation, processEditOrganiz
 router.get('/new-project', showNewProjectForm);
 router.post('/new-project', projectValidation, processNewProjectForm);
 
+//ROUTES FOR ASSIGNING AND DISPLAYING CATEGORIES TO PROJECTS
+router.get('/project/:project_id/assign-categories', showAssignCategoriesForm);
+router.post('/project/:project_id/assign-categories', processAssignCategoriesForm);
 
 // error-handling routes
 router.get('/test-error', testErrorPage);
