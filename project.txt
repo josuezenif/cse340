@@ -1,0 +1,9 @@
+What was taken from /project.ejs
+last element
+
+      <p>
+            <strong>Categories: </strong>
+            <a href="/category/<%= categories.category_id %>">
+                <%= categories.category_name %>
+            </a>
+        </p>
