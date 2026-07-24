@@ -61,7 +61,7 @@ const createOrganization = async (name, description, contactEmail, logoFilename)
 };
 
 // UPTDATING ORGANIZATION INFORMATION
-const updateOrganization = async (organizationID, name, description, email, logo_file) => {
+const updateOrganization = async (name, description, email, logo_file, organizationID) => {
   const query = `
     UPDATE organization
     SET name = $1, description = $2, email = $3, logo_file = $4
