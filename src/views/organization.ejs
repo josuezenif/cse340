@@ -28,9 +28,12 @@
                 <% }) %>
         </ul>
 
-        <section class="edit-organization">
-            <a href="/edit-organization/<%= organizationDetails.organization_id %>">Edit Organization</a>
-        </section>
+        <% if(user && user.role_name==='admin' ){ %>
+            <section class="edit-organization">
+                <a href="/edit-organization/<%= organizationDetails.organization_id %>">Edit Organization</a>
+            </section>
+            <% } %>
+
     </main>
 
     <%- include('partials/footer') %>

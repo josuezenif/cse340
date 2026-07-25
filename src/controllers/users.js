@@ -97,6 +97,24 @@ async function showDashboard(req, res) {
     });
 }
 
+// --------------- REQUIRE ROLE (admin) FUNCTION MIDDLEWARE ------------
+function requireRole(role) {
+    return (req, res, next) => {
+        if (!req.session || !req.session.user) {
+            req.flash('error', 'You must be logged in first!');
+            return res.redirect('/');
+        }
+
+        if (req.session.user.role_name !== role) {
+            req.flash('error', 'You do not have the required role!')
+            return res.redirect('/');
+        }
+
+        next();
+    }
+
+}
+
 export {
     showUserRegistrationForm,
     processUserRegistrationForm,
@@ -104,5 +122,6 @@ export {
     processLoginForm,
     processLogout,
     requireLogin,
-    showDashboard
+    showDashboard,
+    requireRole
 };
