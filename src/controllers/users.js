@@ -49,7 +49,7 @@ async function processLoginForm(req, res) {
                 console.log('User logged in:', user);
             }
 
-            res.redirect('/');
+            res.redirect('/dashboard');
         }
 
         else {
@@ -75,10 +75,34 @@ async function processLogout(req, res) {
     res.redirect('/login');
 }
 
+// --------------------- REQUIRE LOGIN FUNCTION ----------------
+async function requireLogin(req, res, next) {
+    if (!req.session || !req.session.user) {
+        req.flash('error', 'You must be logged in to access that page.');
+        return res.redirect('/login');
+    }
+
+    next();
+}
+
+// --------------------------- DASHBOARD -------------------------
+async function showDashboard(req, res) {
+    const user = req.session.user;
+    const title = 'My account';
+
+    res.render('dashboard', {
+        title,
+        name: user.name,
+        email: user.email
+    });
+}
+
 export {
     showUserRegistrationForm,
     processUserRegistrationForm,
     showLoginForm,
     processLoginForm,
-    processLogout
+    processLogout,
+    requireLogin,
+    showDashboard
 };
