@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt"
-import { createNewUser } from '../models/users.js';
+import { createNewUser, authenticateUser } from '../models/users.js';
 
+// -------------------- REGISTRATION FORM ------------------
 async function showUserRegistrationForm(req, res) {
     const title = 'Registration';
 
@@ -27,4 +28,57 @@ const processUserRegistrationForm = async (req, res) => {
     }
 }
 
-export { showUserRegistrationForm, processUserRegistrationForm };
+// -------------------- LOGIN AND AUTHENTICATING USERS ----------------
+const showLoginForm = async (req, res) => {
+    const title = 'Login to account';
+
+    res.render('login', { title });
+}
+
+async function processLoginForm(req, res) {
+    const { email, password } = req.body;
+    try {
+        const user = await authenticateUser(email, password);
+        console.log(user);
+
+        if (user) {
+            req.session.user = user;
+            req.flash('sucess', 'Successfully logged in! 🤩');
+
+            if (res.locals.NODE_ENV === 'development') {
+                console.log('User logged in:', user);
+            }
+
+            res.redirect('/');
+        }
+
+        else {
+            req.flash('error', 'Invalid email or password! Try again! 😖');
+            res.redirect('/login');
+        }
+    }
+
+    catch (error) {
+        console.error('These was an error logging you in!', error);
+        req.flash('error', 'Please type in your valid email address and password! 🙄');
+        res.redirect('/login');
+    }
+
+}
+
+async function processLogout(req, res) {
+    if (req.session.user) {
+        delete req.session.user;
+    }
+
+    req.flash('success', 'Successfully logged out! 😝');
+    res.redirect('/login');
+}
+
+export {
+    showUserRegistrationForm,
+    processUserRegistrationForm,
+    showLoginForm,
+    processLoginForm,
+    processLogout
+};

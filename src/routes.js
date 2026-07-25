@@ -34,8 +34,15 @@ import {
     categoryValidation
 } from "./controllers/categories.js";
 
+import {
+    showUserRegistrationForm,
+    processUserRegistrationForm,
+    showLoginForm,
+    processLoginForm,
+    processLogout
+} from "./controllers/users.js";
+
 import { testErrorPage } from "./controllers/errors.js";
-import { showUserRegistrationForm, processUserRegistrationForm } from "./controllers/users.js";
 
 // DEFINING ROUTES AND GETTING PAGES
 const router = express.Router();
@@ -84,6 +91,12 @@ router.post('/edit-category/:id', categoryValidation, processUpdateCategoryForm)
 // ROUTES TO SHOW REGISTRATION FORM AND PROCESS THE REGISTRATION DATA
 router.get('/register', showUserRegistrationForm);
 router.post('/register', processUserRegistrationForm);
+
+
+// ROUTES FOR LOGIN AUTHENTICATION AND LOGGING OUT
+router.get('/login', showLoginForm);
+router.post('/login', processLoginForm);
+router.get('/logout', processLogout);
 
 // error-handling routes
 router.get('/test-error', testErrorPage);

@@ -38,6 +38,10 @@ nav ul {
     column-gap: 15px;
 }
 
+.separacion {
+    border: none;
+}
+
 nav a {
     text-decoration: none;
     color: #374151;
