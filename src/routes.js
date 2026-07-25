@@ -42,7 +42,8 @@ import {
     processLogout,
     requireLogin,
     showDashboard,
-    requireRole
+    requireRole,
+    allUsersPage
 } from "./controllers/users.js";
 
 import { testErrorPage } from "./controllers/errors.js";
@@ -103,6 +104,9 @@ router.get('/logout', processLogout);
 
 // REQUIRE LOGIN BEFORE SHOWING DASHBOARD 
 router.get('/dashboard', requireLogin, showDashboard);
+
+// DISPLAYING ALL USERS FOR ADMIN
+router.get('/allUsers', requireRole('admin'), allUsersPage);
 
 // error-handling routes
 router.get('/test-error', testErrorPage);

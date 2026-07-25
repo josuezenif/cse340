@@ -60,4 +60,25 @@ const authenticateUser = async (email, password) => {
     }
 }
 
-export { createNewUser, authenticateUser };
+// ----------- GETTING ALL USERS REGISTERED ------------
+const getRegisteredUsers = async () => {
+    const query = `
+        SELECT name, email, role_name
+        FROM users
+        JOIN roles
+        ON users.role_id = roles.role_id;
+    `;
+    const result = await db.query(query);
+
+    if (result.rows.length === 0) {
+        throw new Error('Failed to retrieve users');
+    }
+
+    if (process.env.ENABLE_SQL_LOGGING === 'true') {
+        console.log('Retrieved all users:', result.rows);
+    }
+
+    return result.rows;
+}
+
+export { createNewUser, authenticateUser, getRegisteredUsers };

@@ -15,5 +15,12 @@
         <p>
             Email Address: <%= email %>
         </p>
+
+        <% if(user && user.role_name==='admin' ){ %>
+            <p>
+                <li class="seeAllUsers">See all <a href="/allUsers">accounts registered</a></li>
+            </p>
+            <% } %>
+
     </main>
     <%- include('partials/footer') %>

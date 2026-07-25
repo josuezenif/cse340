@@ -178,3 +178,18 @@ footer {
     background-color: #d1ecf1;
     border-color: #bee5eb;
 }
+
+.users {
+    border: 1.3px solid rgb(43, 54, 118);
+    border-radius: 0.4em;
+    padding-left: 15px;
+    margin-top: 15px;
+}
+
+.seeAllUsers {
+    list-style: none;
+}
+
+.linkDashboard {
+    list-style: none;
+}
