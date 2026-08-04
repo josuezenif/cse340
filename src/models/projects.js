@@ -120,11 +120,91 @@ async function updateProject(organization_id, title, description, location, date
     return result.rows[0].project_id;
 }
 
+// CREATING FUNCTIONS TO ADD, RETRIEVE, AND DELETE VOLUNTEERS
+
+// ADDING VOLUNTEERS
+// async function addVolunteers(name, email) {
+//     const query = `
+//         INSERT INTO users (name, email) VALUES
+//         ($1, $2)
+//         RETURNING volunteer_id;
+//     `;
+
+//     const queryParams = [name, email];
+//     const result = await db.query(query, queryParams);
+
+//     return result.rows[0].volunteer_id;
+// }
+
+// ADDING VOLUNTEERS TO PROJECTS
+async function addVolunteerToProject(user_id, project_id) {
+    const query = `
+        INSERT INTO user_projects (user_id, project_id) VALUES
+        ($1, $2);
+    `;
+
+    const queryParams = [user_id, project_id];
+    const result = await db.query(query, queryParams);
+
+    return result.rows;
+}
+
+// REMOVE VOLUNTEERS FROM PROJECTS
+async function removeVolunteerFromProject(user_id, project_id) {
+    const query = `
+        DELETE FROM user_projects
+        WHERE user_id = $1 AND project_id = $2;
+    `;
+
+    const queryParams = [user_id, project_id];
+    const result = await db.query(query, queryParams);
+
+    return result.rows;
+}
+
+async function isVolunteering(user_id, project_id) {
+    const query = `
+        SELECT user_id, project_id
+        FROM user_projects
+        WHERE user_id = $1 AND project_id = $2;
+    `;
+
+    const queryParams = [user_id, project_id];
+    const result = await db.query(query, queryParams);
+
+    return result.rows.length > 0;
+}
+
+// GETTING VOLUNTEER INFO BY ID
+async function getListProjectsOfVolunteer(user_id) {
+    const query = `
+        SELECT user_id, up.project_id, serv.title, serv.project_date
+        FROM user_projects up
+
+        JOIN services serv
+        ON up.project_id = serv.project_id
+
+        WHERE user_id = $1;
+    `;
+
+    const result = await db.query(query, [user_id]);
+
+    return result.rows;
+    // return result.rows.length > 0 ? result.rows[0] : null;
+
+}
+
 export {
     getAllProjects,
     getProjectsByOrganizationId,
     getUpcomingProjects,
     getProjectDetails,
     createProject,
-    updateProject
+    updateProject,
+
+    // volunteers
+    addVolunteerToProject,
+    removeVolunteerFromProject,
+    isVolunteering,
+    getListProjectsOfVolunteer
 };

@@ -106,3 +106,23 @@ CREATE TABLE users(
 	role_id INT REFERENCES roles(role_id) , 
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+----------------------------- CREATING VOLUNTEERS TABLE AND VOLUNTEERS PROJECTS TABLE -----------------
+
+------------------------------------------ MANY TO MANY RELATIONSHIP ----------------------------------
+
+CREATE TABLE user_projects(
+	user_id INT,
+	project_id INT,
+
+	PRIMARY KEY (user_id, project_id), 
+
+	FOREIGN KEY (user_id) 
+	REFERENCES users(user_id)
+	ON DELETE CASCADE,
+
+	FOREIGN KEY (project_id)
+	REFERENCES services(project_id)
+	ON DELETE CASCADE
+);
+

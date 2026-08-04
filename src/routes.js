@@ -19,7 +19,10 @@ import {
     processNewProjectForm,
     projectValidation,
     showEditProjectForm,
-    processEditProjectForm
+    processEditProjectForm,
+    processNewVolunteer,
+    processRemoveVolunteer,
+    removeProject
 } from "./controllers/projects.js";
 
 import {
@@ -102,11 +105,21 @@ router.get('/login', showLoginForm);
 router.post('/login', processLoginForm);
 router.get('/logout', processLogout);
 
-// REQUIRE LOGIN BEFORE SHOWING DASHBOARD 
+// REQUIRE LOGIN BEFORE SHOWING DASHBOARD AND DISPLAYING PROJECTS USER  IS SIGNED UP FOR
 router.get('/dashboard', requireLogin, showDashboard);
 
 // DISPLAYING ALL USERS FOR ADMIN
 router.get('/allUsers', requireRole('admin'), allUsersPage);
+
+// ADDING VOLUNTEERS TO PROJECTS
+// router.get('/volunteer', requireLogin, showVolunteerPage)
+router.get('/volunteer/:project_id', requireLogin, processNewVolunteer);
+
+// PROCESSING REMOVING VOLUNTEER FROM PROJECT
+router.get('/remove-volunteer/:project_id', requireLogin, processRemoveVolunteer);
+
+// REMOVING PROJECT FROM DASHBOARD
+router.get('/remove-project/:project_id', requireLogin, removeProject);
 
 // error-handling routes
 router.get('/test-error', testErrorPage);

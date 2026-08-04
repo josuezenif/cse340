@@ -22,5 +22,31 @@
             </p>
             <% } %>
 
+                <% if (isLoggedIn) { %>
+                    <h2 class="dashboard-h2">
+                        Projects you're signed up to volunteer!
+                    </h2>
+
+                    <% if (projectList.length==0){ %>
+                        <p>No projects to show! 🥲</p>
+                        <%}%>
+
+                            <% projectList.forEach(project=> { %>
+                                <li class="userProjects">
+                                    <div>
+                                        <a href="/project/<%= project.project_id %>">
+                                            <%= project.title %>
+                                        </a> | <%= new Date(project.project_date).toLocaleDateString('en-CA', {
+                                            year: 'numeric' , month: 'short' , day: 'numeric' });%>
+                                    </div>
+
+                                    <div class="removeProject">
+                                        <a href="/remove-project/<%= project.project_id %>">❌</a>
+                                    </div>
+
+                                </li>
+                                <%})%>
+                                    <%}%>
+
     </main>
     <%- include('partials/footer') %>

@@ -193,3 +193,22 @@ footer {
 .linkDashboard {
     list-style: none;
 }
+
+.userProjects {
+    list-style: none;
+}
+
+.dashboard-h2 {
+    margin-top: 2em;
+}
+
+.userProjects {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.removeProject a {
+    text-decoration: none;
+
+}
